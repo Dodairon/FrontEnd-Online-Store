@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 
 class Products extends React.Component {
   render() {
-    const { title, image, price, id, obj, handleClick } = this.props;
+    const { title, image, price, id, handleClick } = this.props;
     return (
       <div className="product" data-testid="product">
         <Link
@@ -18,21 +18,14 @@ class Products extends React.Component {
           R$:
           { price }
         </p>
-        <Link
+        <button
+          type="button"
+          id={ id }
+          onClick={ handleClick }
           data-testid="product-add-to-cart"
-          to={ {
-            pathname: '/carrinho',
-            ItensCart: obj,
-          } }
         >
-          <button
-            type="button"
-            id={ id }
-            onClick={ handleClick }
-          >
-            Adicionar ao carrinho
-          </button>
-        </Link>
+          Adicionar ao carrinho
+        </button>
       </div>
     );
   }
@@ -43,7 +36,6 @@ Products.propTypes = {
   title: PropTypes.string.isRequired,
   image: PropTypes.string.isRequired,
   price: PropTypes.number.isRequired,
-  obj: PropTypes.string.isRequired,
   handleClick: PropTypes.func.isRequired,
 };
 

@@ -2,68 +2,50 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 class Carrinho extends React.Component {
-  constructor(props) {
-    super(props);
-    const { location } = this.props;
+  constructor() {
+    super();
     this.state = {
-      products: '',
-      minValue: 1,
-      product: location.ItensCart,
+      products: JSON.parse(localStorage.getItem('cartItems')),
     };
     this.deleteCard = this.deleteCard.bind(this);
     this.changeQtd = this.changeQtd.bind(this);
-    this.loadFunc = this.loadFunc.bind(this);
-  }
-
-  componentDidMount() {
-    this.loadFunc();
-  }
-
-  loadFunc() {
-    const { product } = this.state;
-    const items = JSON.parse(localStorage.getItem('cartItems'));
-    if (product !== undefined) {
-      this.setState({ products: [product] });
-    } else if (items) {
-      this.setState({ products: [...items] });
-    }
   }
 
   deleteCard({ target }) {
     const { products } = this.state;
     const name = target.parentNode.parentNode.firstChild.innerText;
+    console.log(name);
     const i = products.findIndex((card) => card.title === name);
     products.splice(i, 1);
     this.setState({ products });
     localStorage.setItem('cartItems', JSON.stringify([...products]));
-    console.log(this.state);
   }
 
   changeQtd({ target }) {
     const operator = target.id;
-    const { carrinho } = this.state;
-    const name = target.parentNode.parentNode.firstChild.innerText;
-    const i = carrinho.findIndex((e) => e.id === name);
-    console.log(this.state);
+    const { products } = this.state;
+    const name = target.parentNode.parentNode.id;
+    const i = products.findIndex((e) => e.id === name);
     if (operator === '+') {
-      carrinho[i].qtd += 1;
-      this.setState({ carrinho });
-      localStorage.setItem('cartItems', JSON.stringify([...carrinho]));
+      products[i].order += 1;
+      this.setState({ products });
+      localStorage.setItem('cartItems', JSON.stringify([...products]));
     } else {
-      if (carrinho[i].qtd >= 1) carrinho[i].qtd -= 1;
-      this.setState({ carrinho });
-      localStorage.setItem('cartItems', JSON.stringify([...carrinho]));
+      if (products[i].order >= 1) products[i].order -= 1;
+      this.setState({ products });
+      localStorage.setItem('cartItems', JSON.stringify([...products]));
     }
   }
 
   render() {
-    const { products, minValue } = this.state;
+    const { products } = this.state;
     return (
       <div>
         {products !== null && products.length > 0 ? (
           products.map((product) => (
             <div
               data-testid="shopping-cart-button"
+              id={ product.id }
               key={ product.id }
               className="product"
             >
@@ -75,7 +57,7 @@ class Carrinho extends React.Component {
               </p>
               <p data-testid="shopping-cart-product-quantity">
                 <i>Qtd.</i>
-                { minValue }
+                { product.order }
               </p>
               <div>
                 <button

@@ -45,14 +45,14 @@ class SearchInput extends React.Component {
   saveCartItems({ target: { id } }) {
     const { products } = this.state;
     const result = products.find((e) => e.id === id);
+    result.order = 1;
     const localKeys = JSON.parse(localStorage.getItem('cartItems'));
     if (localKeys) {
       if (localKeys.every((e) => e.id !== id)) {
         localStorage.setItem('cartItems', JSON.stringify([...localKeys, result]));
       }
     } else {
-      localStorage.setItem('cartItems', JSON.stringify([]));
-      localStorage.setItem('cartItems', JSON.stringify([...localKeys, result]));
+      localStorage.setItem('cartItems', JSON.stringify([result]));
     }
   }
 
@@ -96,7 +96,6 @@ class SearchInput extends React.Component {
               Pesquisar
             </button>
             <Link
-              style={ { backgroundColor: 'red' } }
               data-testid="shopping-cart-button"
               to="/carrinho"
             >
