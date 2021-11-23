@@ -11,7 +11,7 @@ class ProductDetail extends React.Component {
       productInfo: [],
       load: false,
       id: params.id,
-      qtd: 1,
+      order: 1,
     };
     this.productDetails = this.productDetails.bind(this);
     this.saveCartItems = this.saveCartItems.bind(this);
@@ -24,8 +24,8 @@ class ProductDetail extends React.Component {
   }
 
   setSaveCard() {
-    const { productInfo: { title, thumbnail, price }, id, qtd } = this.state;
-    const result = { title, thumbnail, price, id, qtd };
+    const { productInfo: { title, thumbnail, price }, id, order } = this.state;
+    const result = { title, thumbnail, price, id, order };
     const readLocalProducts = JSON.parse(localStorage.getItem('cartItems'));
     localStorage.setItem('cartItems', JSON.stringify([...readLocalProducts, result]));
   }
@@ -53,12 +53,12 @@ class ProductDetail extends React.Component {
 
   changeQtd({ target }) {
     const operator = target.id;
-    const { qtd } = this.state;
+    const { order } = this.state;
     if (operator === '+') {
-      this.setState({ qtd: qtd + 1 });
+      this.setState({ order: order + 1 });
     }
-    if (qtd >= 1 && operator === '-') {
-      this.setState({ qtd: qtd - 1 });
+    if (order >= 1 && operator === '-') {
+      this.setState({ order: order - 1 });
     }
   }
 
@@ -70,7 +70,7 @@ class ProductDetail extends React.Component {
         price,
       },
       load,
-      qtd,
+      order,
     } = this.state;
     return (
       <div>
@@ -92,7 +92,7 @@ class ProductDetail extends React.Component {
                 <div>
                   <p data-testid="shopping-cart-product-quantity">
                     <i>Qtd: </i>
-                    { qtd }
+                    { order }
                   </p>
                   <button
                     type="button"
