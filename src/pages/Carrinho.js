@@ -70,7 +70,7 @@ class Carrinho extends React.Component {
               <h4 data-testid="shopping-cart-product-name">{ product.title }</h4>
               <img src={ product.thumbnail } alt={ product.title } />
               <p>
-                <i>R$:</i>
+                <i>R$: </i>
                 { product.price }
               </p>
               <p data-testid="shopping-cart-product-quantity">
